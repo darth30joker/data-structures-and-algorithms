@@ -39,21 +39,33 @@ public class BinarySearch {
      *  5 8 1 23 1 11
      */
     private static int binarySearch(int[] a, int x) {
+        if (a.length == 1) {
+            if (a[0] != x) {
+                return -1;
+            }
+        } else {
+            if (a[0] > x || a[a.length - 1] < x) {
+                return -1;
+            }
+        }
+
+        return startBinarySearch(0, a, x);
+    }
+
+    private static int startBinarySearch(int currentPosition, int[] a, int x) {
+//        System.out.println(String.format("value to find: %s, current array: %s", x, Arrays.toString(a)));
         if (a.length == 1 && a[0] != x) {
             return -1;
         }
 
-        if (a[0] > x || a[a.length - 1] < x) {
-            return -1;
-        }
-
         int middle = a.length / 2;
+
         if (a[middle] == x) {
-            return middle;
+            return currentPosition + middle;
         } else if (a[middle] > x) {
-            return binarySearch(Arrays.copyOfRange(a, 0, middle), x);
+            return startBinarySearch(currentPosition, Arrays.copyOfRange(a, 0, middle), x);
         } else {
-            return binarySearch(Arrays.copyOfRange(a, middle + 1, a.length), x);
+            return startBinarySearch(currentPosition + middle + 1, Arrays.copyOfRange(a, middle + 1, a.length), x);
         }
     }
 
